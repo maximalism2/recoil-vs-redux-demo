@@ -39,9 +39,24 @@ const CreateButton = styled.button`
   border: none;
   background: 0;
   color: #aaa;
+  width: 100%;
+  padding: 0.7em 0.5em;
+  text-align: left;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
 
   &:hover {
     color: #333333;
+  }
+
+  &::before {
+    content: "+";
+    font-size: 2em;
+    margin-right: 0.4em;
+    opacity: 0.6;
+    height: 1em;
+    line-height: 0.9em;
   }
 `;
 
