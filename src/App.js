@@ -1,24 +1,35 @@
-import logo from './logo.svg';
-import './App.css';
+import { useState } from "react";
+import { EventsList } from "./components/EventsList";
+import { Aside, Content, Main } from "./components/Layout";
+import { bets } from "./consts";
+import { EventView } from "./components/EventView";
+import { getBetById } from "./utils";
 
 function App() {
+  const [selectedEventId, setSelectedEventId] = useState(bets[0].id);
+
+  const selectEvent = ({ id }) => setSelectedEventId(id);
+
+  const createNewEvent = () =>
+    console.log("New bet is going to be created here");
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <Main>
+      <Aside>
+        <EventsList
+          bets={bets}
+          onEventClick={selectEvent}
+          onCreateClick={createNewEvent}
+        />
+      </Aside>
+      <Content>
+        <EventView
+          key={selectedEventId}
+          bet={getBetById(selectedEventId)}
+          updateBet={console.log}
+        />
+      </Content>
+    </Main>
   );
 }
 
