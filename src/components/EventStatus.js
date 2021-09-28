@@ -1,9 +1,9 @@
 import styled from "@emotion/styled";
-import { EBetStatus } from "../consts";
+import { EEventStatus } from "../consts";
 
 const betStatusMap = {
-  [EBetStatus.Active]: "A",
-  [EBetStatus.Suspended]: "S",
+  [EEventStatus.Active]: "A",
+  [EEventStatus.Suspended]: "S",
 };
 
 const StyledEventStatus = styled.span`
@@ -25,7 +25,7 @@ const StyledEventStatus = styled.span`
   `}
 
   ${({ status }) => {
-    const color = status === EBetStatus.Active ? "#88bb88" : "#bb8888";
+    const color = status === EEventStatus.Active ? "#88bb88" : "#bb8888";
     return `
         background: ${color};
         border: 1px solid ${color};

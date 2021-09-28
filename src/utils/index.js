@@ -1,11 +1,22 @@
-import {bets, EBetStatus} from "../consts";
+import { EEventStatus } from "../consts";
 
 export function toggleStatus(status) {
-  return status === EBetStatus.Active
-    ? EBetStatus.Suspended
-    : EBetStatus.Active;
+  return status === EEventStatus.Active
+    ? EEventStatus.Suspended
+    : EEventStatus.Active;
 }
 
-export function getBetById(selectedBetId) {
-  return bets.find(({id}) => id === selectedBetId);
+export function getEventById(events, selectedEventId) {
+  return events.find(({ id }) => id === selectedEventId);
 }
+
+let idCounter = 1;
+
+export const uniqueID = () => idCounter++;
+
+export const generateEmptyEvent = () => ({
+  id: uniqueID(),
+  title: "",
+  status: EEventStatus.Suspended,
+  startDate: new Date(),
+});

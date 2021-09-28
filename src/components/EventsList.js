@@ -60,14 +60,16 @@ const CreateButton = styled.button`
   }
 `;
 
-export const EventsList = ({ bets, onEventClick, onCreateClick }) => (
+export const EventsList = ({ events, onEventClick, onCreateClick }) => (
   <List>
-    {bets.map((bet) => (
-      <ListItem key={bet.id}>
-        <Link href="#" onClick={() => onEventClick(bet)}>
-          <BetTitle>{bet.title}</BetTitle>
-          <EventStatus status={bet.status} />
-          <StartTime>{formatDate(bet.startDate, START_DATE_FORMAT)}</StartTime>
+    {events.map((event) => (
+      <ListItem key={event.id}>
+        <Link href="#" onClick={() => onEventClick(event.id)}>
+          <BetTitle>{event.title}</BetTitle>
+          <EventStatus status={event.status} />
+          <StartTime>
+            {formatDate(event.startDate, START_DATE_FORMAT)}
+          </StartTime>
         </Link>
       </ListItem>
     ))}

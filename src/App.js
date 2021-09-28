@@ -1,33 +1,62 @@
 import { useState } from "react";
 import { EventsList } from "./components/EventsList";
 import { Aside, Content, Main } from "./components/Layout";
-import { bets } from "./consts";
+import { mockEvents } from "./consts";
 import { EventView } from "./components/EventView";
-import { getBetById } from "./utils";
+import { getEventById } from "./utils";
+import { CreateEventView } from "./components/CreateEventView";
+
+const updateById = (selectedEventId, slice) => (events) => {
+  const selectedEventIndex = events.findIndex((e) => e.id === selectedEventId);
+  const selectedEvent = getEventById(events, selectedEventId);
+
+  return [
+    ...events.slice(0, selectedEventIndex),
+    { ...selectedEvent, ...slice },
+    ...events.slice(selectedEventIndex + 1),
+  ];
+};
 
 function App() {
-  const [selectedEventId, setSelectedEventId] = useState(bets[0].id);
+  const [events, setEvents] = useState(mockEvents);
+  const [selectedEventId, setSelectedEventId] = useState(mockEvents[0].id);
+  const [isCreateView, setIsCreateView] = useState(false);
 
-  const selectEvent = ({ id }) => setSelectedEventId(id);
+  const selectEvent = (id) => {
+    setIsCreateView(false);
+    setSelectedEventId(id);
+  };
 
-  const createNewEvent = () =>
-    console.log("New bet is going to be created here");
+  const updateEvent = (slice) => {
+    setEvents(updateById(selectedEventId, slice));
+  };
+
+  const createNewEvent = () => setIsCreateView(true);
+
+  const saveNewEvent = (event) => {
+    setEvents((prevEvents) => prevEvents.concat(event));
+    selectEvent(event.id);
+  };
 
   return (
     <Main>
       <Aside>
         <EventsList
-          bets={bets}
+          events={events}
           onEventClick={selectEvent}
           onCreateClick={createNewEvent}
         />
       </Aside>
       <Content>
-        <EventView
-          key={selectedEventId}
-          bet={getBetById(selectedEventId)}
-          updateBet={console.log}
-        />
+        {isCreateView ? (
+          <CreateEventView saveNewEvent={saveNewEvent} />
+        ) : (
+          <EventView
+            key={selectedEventId}
+            event={getEventById(events, selectedEventId)}
+            updateEvent={updateEvent}
+          />
+        )}
       </Content>
     </Main>
   );
