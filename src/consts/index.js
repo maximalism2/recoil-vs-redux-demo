@@ -15,19 +15,19 @@ const inThreeDays = add(new Date(), { days: 3 });
 export const mockEvents = [
   {
     id: uniqueID(),
-    title: "My bet 1",
+    title: "Dortmund vs Sporting Lissabon",
     status: EEventStatus.Active,
     startDate: new Date(),
   },
   {
     id: uniqueID(),
-    title: "My bet 2",
+    title: "FC Porto vs Liverpool",
     status: EEventStatus.Suspended,
     startDate: tomorrow,
   },
   {
     id: uniqueID(),
-    title: "My bet 3",
+    title: "Milan vs Atletico Madrid",
     status: EEventStatus.Suspended,
     startDate: inThreeDays,
   },
