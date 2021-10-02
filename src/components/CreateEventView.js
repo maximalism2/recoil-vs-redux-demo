@@ -34,13 +34,21 @@ export function CreateEventView({ saveNewEvent }) {
   return (
     <>
       <Title>Create new event</Title>
-      <EventView
-        event={newEvent}
-        updateEvent={(slice) =>
-          setNewEvent((event) => ({ ...event, ...slice }))
-        }
-      />
-      <SaveButton onClick={() => saveNewEvent(newEvent)}>Save event</SaveButton>
+      <form
+        action="#"
+        onSubmit={(e) => {
+          e.preventDefault();
+          saveNewEvent(newEvent);
+        }}
+      >
+        <EventView
+          event={newEvent}
+          updateEvent={(slice) =>
+            setNewEvent((event) => ({ ...event, ...slice }))
+          }
+        />
+        <SaveButton type="submit">Save event</SaveButton>
+      </form>
     </>
   );
 }

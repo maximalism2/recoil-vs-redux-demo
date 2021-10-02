@@ -8,7 +8,7 @@ import { CreateEventView } from "./components/CreateEventView";
 
 const updateById = (selectedEventId, slice) => (events) => {
   const selectedEventIndex = events.findIndex((e) => e.id === selectedEventId);
-  const selectedEvent = getEventById(events, selectedEventId);
+  const selectedEvent = events[selectedEventIndex];
 
   return [
     ...events.slice(0, selectedEventIndex),
@@ -16,6 +16,9 @@ const updateById = (selectedEventId, slice) => (events) => {
     ...events.slice(selectedEventIndex + 1),
   ];
 };
+
+const removeById = (eventId) => (events) =>
+  events.filter((event) => event.id !== eventId);
 
 function App() {
   const [events, setEvents] = useState(mockEvents);
@@ -29,6 +32,12 @@ function App() {
 
   const updateEvent = (slice) => {
     setEvents(updateById(selectedEventId, slice));
+  };
+
+  const removeEvent = (eventId) => {
+    const filteredEvents = removeById(eventId)(events);
+    setSelectedEventId(filteredEvents[0].id);
+    setEvents(filteredEvents);
   };
 
   const createNewEvent = () => setIsCreateView(true);
@@ -55,6 +64,7 @@ function App() {
             key={selectedEventId}
             event={getEventById(events, selectedEventId)}
             updateEvent={updateEvent}
+            removeEvent={removeEvent}
           />
         )}
       </Content>

@@ -24,10 +24,33 @@ const TitleInput = styled.input`
   }
 `;
 
-export const EventView = ({ event, updateEvent }) => (
+const RemoveButton = styled.button`
+  border: 1px solid #dd1818;
+  color: #dd1818;
+  border-radius: 0.2em;
+  padding: 0.5em;
+  background: transparent;
+  cursor: pointer;
+  opacity: 0.5;
+  margin-top: 2em;
+  transition: 0.15s;
+
+  &:hover,
+  &:focus {
+    opacity: 1;
+    box-shadow: 0 2px 5px #dd181833;
+  }
+
+  &:active {
+    box-shadow: inset 0 2px 5px #dd181833;
+  }
+`;
+
+export const EventView = ({ event, updateEvent, removeEvent }) => (
   <div>
     <TitleInput
       type="text"
+      required
       placeholder="FC Karpaty vs FC Chelsea"
       value={event.title}
       onChange={(e) => updateEvent({ title: e.currentTarget.value })}
@@ -49,5 +72,11 @@ export const EventView = ({ event, updateEvent }) => (
         }
       />
     </Field>
+
+    {typeof removeEvent === "function" && (
+      <RemoveButton type="button" onClick={() => removeEvent(event.id)}>
+        Remove event
+      </RemoveButton>
+    )}
   </div>
 );

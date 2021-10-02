@@ -36,6 +36,7 @@ const StyledEventStatus = styled.span`
 export const EventStatus = ({ status, onClick }) => (
   <StyledEventStatus
     as={typeof onClick === "function" ? "button" : "span"}
+    type="button"
     status={status}
     onClick={onClick}
   >
