@@ -1,14 +1,10 @@
 import { EEventStatus } from "../consts";
 
-export function toggleStatus(status) {
-  return status === EEventStatus.Active
-    ? EEventStatus.Suspended
-    : EEventStatus.Active;
-}
+export const toggleStatus = (status) =>
+  status === EEventStatus.Active ? EEventStatus.Suspended : EEventStatus.Active;
 
-export function getEventById(events, selectedEventId) {
-  return events.find(({ id }) => id === selectedEventId);
-}
+export const getEventById = (events, selectedEventId) =>
+  events.find(({ id }) => id === selectedEventId);
 
 let idCounter = 1;
 
