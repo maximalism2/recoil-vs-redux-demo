@@ -1,5 +1,3 @@
-export * from "./actionTypes";
-
 export const EEventStatus = {
   Active: "__active__",
   Suspended: "__suspended__",

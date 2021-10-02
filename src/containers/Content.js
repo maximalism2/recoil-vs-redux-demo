@@ -1,17 +1,18 @@
-import { connect } from "react-redux";
 import { EventViewContainer } from "./EventView";
 import { CreateEventViewContainer } from "./CreateEventView";
 import { ContentWrapper } from "../components/ContentWrapper";
+import { useRecoilValue } from "recoil";
+import { createMode$ } from "../atoms";
 
-const mapStateToProps = (state) => ({
-  isCreateMode: state.eventList.createMode,
-  syncPending: state.syncing.pending,
-});
+export const ContentContainer = () => {
+  const createMode = useRecoilValue(createMode$);
 
-const Container = ({ isCreateMode, syncPending }) => (
-  <ContentWrapper syncPending={syncPending}>
-    {isCreateMode ? <CreateEventViewContainer /> : <EventViewContainer />}
-  </ContentWrapper>
-);
-
-export const ContentContainer = connect(mapStateToProps)(Container);
+  return (
+    <ContentWrapper
+      // TODO: think about pending state
+      syncPending={false}
+    >
+      {createMode ? <CreateEventViewContainer /> : <EventViewContainer />}
+    </ContentWrapper>
+  );
+};

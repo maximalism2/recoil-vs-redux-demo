@@ -1,30 +1,33 @@
-import { connect } from "react-redux";
-
-import * as ActionCreators from "../actions";
-import { activeEventSelector } from "../selectors";
-
 import { EventView } from "../components/EventView";
+import { useRecoilCallback, useRecoilState, useRecoilValue } from "recoil";
+import { eventIds$, eventsFamily$, selectedEventId$ } from "../atoms";
 
-const mapStateToProps = (state) => ({
-  event: activeEventSelector(state),
-});
+export const EventViewContainer = () => {
+  const selectedEventId = useRecoilValue(selectedEventId$);
+  const [event, setEvent] = useRecoilState(eventsFamily$(selectedEventId));
+  const eventIds = useRecoilValue(eventIds$);
+  const deleteEvent = useRecoilCallback(({ set, reset }) => (eventId) => {
+    const filteredEventIds = eventIds.filter((id) => id !== eventId);
 
-const actionsToBind = {
-  updateEvent: ActionCreators.updateEvent,
-  deleteEvent: ActionCreators.deleteEvent,
-};
+    if (filteredEventIds.length > 0) {
+      set(selectedEventId$, filteredEventIds[0]);
+    }
 
-const Container = ({ event, updateEvent, deleteEvent }) =>
-  !event ? null : (
+    set(eventIds$, filteredEventIds);
+
+    reset(eventsFamily$(eventId));
+  });
+
+  if (!event) {
+    return null;
+  }
+
+  return (
     <EventView
       key={event.id}
       event={event}
-      updateEvent={(slice) => updateEvent(event.id, slice)}
+      updateEvent={(slice) => setEvent({ ...event, ...slice })}
       removeEvent={deleteEvent}
     />
   );
-
-export const EventViewContainer = connect(
-  mapStateToProps,
-  actionsToBind
-)(Container);
+};

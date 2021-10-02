@@ -1,18 +1,21 @@
-import { connect } from "react-redux";
+import { useRecoilTransaction_UNSTABLE as useRecoilTransaction } from "recoil";
+
+import {
+  createMode$,
+  eventIds$,
+  eventsFamily$,
+  selectedEventId$,
+} from "../atoms";
 
 import { CreateEventView } from "../components/CreateEventView";
 
-import * as ActionCreators from "../actions";
+export const CreateEventViewContainer = () => {
+  const saveNewEvent = useRecoilTransaction(({ get, set }) => (eventData) => {
+    set(eventIds$, get(eventIds$).concat(eventData.id));
+    set(eventsFamily$(eventData.id), eventData);
+    set(selectedEventId$, eventData.id);
+    set(createMode$, false);
+  });
 
-const Container = ({ saveNewEvent }) => (
-  <CreateEventView saveNewEvent={saveNewEvent} />
-);
-
-const actionsToBind = {
-  saveNewEvent: ActionCreators.saveNewEvent,
+  return <CreateEventView saveNewEvent={saveNewEvent} />;
 };
-
-export const CreateEventViewContainer = connect(
-  () => ({}),
-  actionsToBind
-)(Container);
