@@ -19,6 +19,9 @@ export function eventsReducer(state = mockEvents, action) {
     case ActionTypes.SAVE_NEW_EVENT:
       return state.concat(action.payload.eventData);
 
+    case ActionTypes.DELETE_EVENT:
+      return state.filter((event) => event.id !== action.payload.eventId);
+
     default:
       return state;
   }

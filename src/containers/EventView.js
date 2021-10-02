@@ -11,15 +11,18 @@ const mapStateToProps = (state) => ({
 
 const actionsToBind = {
   updateEvent: ActionCreators.updateEvent,
+  deleteEvent: ActionCreators.deleteEvent,
 };
 
-const Container = ({ event, updateEvent }) => (
-  <EventView
-    key={event.id}
-    event={event}
-    updateEvent={(slice) => updateEvent(event.id, slice)}
-  />
-);
+const Container = ({ event, updateEvent, deleteEvent }) =>
+  !event ? null : (
+    <EventView
+      key={event.id}
+      event={event}
+      updateEvent={(slice) => updateEvent(event.id, slice)}
+      removeEvent={deleteEvent}
+    />
+  );
 
 export const EventViewContainer = connect(
   mapStateToProps,
