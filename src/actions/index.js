@@ -32,3 +32,17 @@ export const deleteEvent = (eventId) => ({
     eventId,
   },
 });
+
+// Syncing actions
+
+export const updateSuccessful = () => ({
+  type: ActionTypes.UPDATE_SUCCESSFUL,
+});
+
+export const saveSuccessful = () => ({
+  type: ActionTypes.SAVE_SUCCESSFUL,
+});
+
+export const deleteSuccessful = () => ({
+  type: ActionTypes.DELETE_SUCCESSFUL,
+});
