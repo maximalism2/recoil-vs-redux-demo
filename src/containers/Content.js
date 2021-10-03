@@ -1,17 +1,16 @@
+import { useRecoilValue } from "recoil";
+
+import { ContentWrapper } from "../components/ContentWrapper";
 import { EventViewContainer } from "./EventView";
 import { CreateEventViewContainer } from "./CreateEventView";
-import { ContentWrapper } from "../components/ContentWrapper";
-import { useRecoilValue } from "recoil";
-import { createMode$ } from "../atoms";
+import { createMode$, syncing$ } from "../atoms";
 
 export const ContentContainer = () => {
   const createMode = useRecoilValue(createMode$);
+  const syncing = useRecoilValue(syncing$);
 
   return (
-    <ContentWrapper
-      // TODO: think about pending state
-      syncPending={false}
-    >
+    <ContentWrapper syncPending={syncing}>
       {createMode ? <CreateEventViewContainer /> : <EventViewContainer />}
     </ContentWrapper>
   );
