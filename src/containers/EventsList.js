@@ -1,23 +1,29 @@
-import { connect } from "react-redux";
-
-import { eventsSelector } from "../selectors";
-import * as actionCreators from "../actions";
-
 import { EventsList } from "../components/EventsList";
+import { useRecoilValue, useSetRecoilState } from "recoil";
+import {
+  createMode$,
+  eventIds$,
+  eventsSelector$,
+  selectedEventId$,
+  useSyncEventStateEffect,
+} from "../atoms";
 
-const mapStateToProps = (state) => ({
-  events: eventsSelector(state),
-});
+export const EventsListContainer = () => {
+  const eventIds = useRecoilValue(eventIds$);
+  const events = useRecoilValue(eventsSelector$);
+  const setSelectedEventId = useSetRecoilState(selectedEventId$);
+  const setCreateMode = useSetRecoilState(createMode$);
 
-const Container = ({ events, createNewEvent, selectEvent }) => (
-  <EventsList
-    events={events}
-    onEventClick={selectEvent}
-    onCreateClick={createNewEvent}
-  />
-);
+  useSyncEventStateEffect(eventIds);
 
-export const EventsListContainer = connect(mapStateToProps, {
-  createNewEvent: actionCreators.createNewEvent,
-  selectEvent: actionCreators.selectEvent,
-})(Container);
+  return (
+    <EventsList
+      events={events}
+      onEventClick={(eventId) => {
+        setSelectedEventId(eventId);
+        setCreateMode(false);
+      }}
+      onCreateClick={() => setCreateMode(true)}
+    />
+  );
+};
