@@ -16,14 +16,18 @@ export const EventsListContainer = () => {
 
   useSyncEventStateEffect(eventIds);
 
+  const onEventClick = (eventId) => {
+    setSelectedEventId(eventId);
+    setCreateMode(false);
+  };
+
+  const onCreateClick = () => setCreateMode(true);
+
   return (
     <EventsList
       events={events}
-      onEventClick={(eventId) => {
-        setSelectedEventId(eventId);
-        setCreateMode(false);
-      }}
-      onCreateClick={() => setCreateMode(true)}
+      onEventClick={onEventClick}
+      onCreateClick={onCreateClick}
     />
   );
 };
